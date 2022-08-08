@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <title>Rock, Paper, Scissors</title>
+
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="header-brand">
+      <img src="images/logo.svg" alt="logo">
+    </div>
+    <div class="score-board">
+      <div class="score-total">
+        TOTAL: <span class="total">0</span>
+      </div>
+      <div class="score-win">
+        WIN: <span class="win">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="options">
+    <img src="images/bg-triangle.svg" alt="triangle" class="triangle">
+    <div class="round-circle blue" onclick="choose(0)">
+      <img src="images/icon-paper.svg" alt="paper">
+    </div>
+    <div class="round-circle yellow" onclick="choose(1)">
+      <img src="images/icon-scissors.svg" alt="scissors">
+    </div>
+    <div class="round-circle red" onclick="choose(2)">
+      <img src="images/icon-rock.svg" alt="rock">
+    </div>
+  </div>
+  
+  
+  
+  <div class="playing">
+    <div class="choice">
+	  <div>You Picked</div>
+      <div class="round-circle big user-choice"></div>
+    </div>
+	
+	<div class="result-text">
+	  <div class="text"></div>
+	  <button class="play-button" onclick="playAgain()">Play Again</button>
+	</div>
+	  
+	<div class="choice">
+	  <div>House Picked</div>
+	  <div class="loading-answer"></div>
+	  <div class="round-circle big answer" style="display: none;"></div>
+    </div>
+  </div>
+  
+
+
+  <!-- <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="#">Anikendra</a>.
+  </div> -->
+</body>
+
+<script>
+var userChoice = null;
+var compChoice = null;
+var colors = ["blue", "yellow", "red"];
+var icons = ["paper", "scissors", "rock"];
+
+var choiceCircle = document.querySelector(".user-choice");
+var choiceImage = null;
+
+var answerCircle = document.querySelector(".answer");
+var ansImage = null;
+
+var resultText = document.querySelector(".result-text");
+
+// rock -> scissors -> paper -> rock
+
+var score = 0
+var scoreSpan = document.querySelector(".win");
+var total = 0;
+var totalSpan = document.querySelector(".total");
+
+var timeout = 1000;
+
+function choose(option) {
+  userChoice = option;
+  total += 1;
+  totalSpan.textContent = total;
+  
+  choiceCircle.classList.add(colors[userChoice]);
+  choiceImage = `<img src="images/icon-${icons[userChoice]}.svg" alt="${icons[userChoice]}">`;
+  choiceCircle.innerHTML = choiceImage;
+  
+  document.querySelector(".options").style.display = "none";
+  document.querySelector(".playing").style.display = "flex";
+  
+  setTimeout(() => {
+    document.querySelector(".loading-answer").style.display = "none";
+	
+	compChoice = getRandomInt(0, 2);
+	while(compChoice == userChoice) {
+	  compChoice = getRandomInt(0, 2);
+	}
+	
+	answerCircle.style.display = "flex";
+	answerCircle.classList.add(colors[compChoice]);
+	ansImage = `<img src="images/icon-${icons[compChoice]}.svg" alt="${icons[compChoice]}">`;
+	answerCircle.innerHTML = ansImage;
+	
+	let yourResult = decideWinner(userChoice, compChoice);
+	document.querySelector(".text").textContent = "You " + yourResult;
+	
+	if (yourResult == "Win") {
+	  document.body.style.backgroundColor = "#0b1f0b";
+	  score += 1;
+	  scoreSpan.textContent = score;
+	} else {
+	  document.body.style.backgroundColor = "#240303";
+	}
+	
+	resultText.style.display = "flex";
+	resultText.style.opacity = 1;
+	resultText.style.width = "180px";
+	
+  }, timeout);
+  
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function decideWinner(userChoice, compChoice) {
+  let userChoiceWord = icons[userChoice];
+  let compChoiceWord = icons[compChoice];
+  
+  if (userChoiceWord == "rock") {
+    if(compChoiceWord == "paper") return "Loose";
+    if(compChoiceWord == "scissors") return "Win";
+  } else if (userChoiceWord == "paper") {
+    if(compChoiceWord == "rock") return "Win";
+    if(compChoiceWord == "scissors") return "Loose";
+  } else if (userChoiceWord == "scissors") {
+    if(compChoiceWord == "paper") return "Win";
+    if(compChoiceWord == "rock") return "Loose";
+  }
+}
+
+function playAgain() {
+  
+  choiceCircle.classList.remove(colors[userChoice]);
+  userChoice = null;
+  
+  answerCircle.style.display = "none";
+  answerCircle.classList.remove(colors[compChoice]);
+  compChoice = null;
+  
+  document.querySelector(".loading-answer").style.display = "block";
+  
+  resultText.style.display = "flex";
+  resultText.style.opacity = 0;
+  resultText.style.width = 0;
+  
+  document.querySelector(".options").style.display = "flex";
+  document.querySelector(".playing").style.display = "none";
+  
+  document.body.style.backgroundColor = "#192648";
+}
+</script>
+
+</html>
