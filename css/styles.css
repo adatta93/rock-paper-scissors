@@ -52,25 +52,25 @@ body {
 .blue {
   border: 20px solid #5672f1;
   border-radius: 100%;
-  position: absolute;
+  /* position: absolute;
   top: 40%;
-  left: 32%;
+  left: 32%; */
 }
 
 .yellow {
   border: 20px solid #eba51c;
   border-radius: 100%;
-  position: absolute;
+  /* position: absolute;
   top: 40%;
-  right: 33%;
+  right: 33%; */
 }
 
 .red {
   border: 20px solid #dd405c;
   border-radius: 100%;
-  position: absolute;
+  /* position: absolute;
   top: 74%;
-  left: 44.5%;
+  left: 44.5%; */
 }
 
 .round-circle img {
@@ -90,7 +90,23 @@ body {
 }
 
 .options {
-  
+  background: url('../images/bg-triangle.svg') no-repeat center;
+  width: 500px;
+    margin: 0 auto;
+    height: 400px;
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.upper {
+  display: flex;
+  justify-content: space-between;
+}
+.lower {
+  display: flex;
+  justify-content: center;
 }
 
 .playing {
@@ -125,12 +141,6 @@ body {
 
 .playing .round-circle:hover {
   transform: none;
-}
-
-.playing .blue, .playing .yellow, .playing .red {
-  position: relative;
-  top: 0;
-  left: 0;
 }
 
 .playing .loading-answer {
@@ -257,17 +267,4 @@ body {
   background-color: rgb(22 22 22 / 37%);
 }
 
-@media (max-width: 780px) {
-  .blue {
-    left: 18%;
-  }
-  
-  .yellow {
-    right: 18%;
-  }
-  
-  .red {
-    left: 39%;
-  }
-}
 
